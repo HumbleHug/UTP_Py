@@ -2,10 +2,9 @@ import csv
 from datetime import datetime
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent      #se declara en mayusculas porque son constantes
-TXT = ROOT / "Archivos" 
-IN_FILE = TXT / "voltajes_250_sucio.csv"
-OUT_FILE = TXT /  "voltajes_250_limpio.csv"
+ROOT = Path(__file__).resolve().parents[1]      #se declara en mayusculas porque son constantes
+IN_FILE = ROOT / "raw" / "voltajes_250_sucio.csv"   #entra a la carpeta raw y busca el archivo
+OUT_FILE = ROOT / "processing" / "voltajes_250_limpio.csv"  #entra a la carpeta proccesing y da el .csv limpio
 
 #apertura de archivos
 with open(IN_FILE, 'r', encoding="utf-8", newline="") as fin,\

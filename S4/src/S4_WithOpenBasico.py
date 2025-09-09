@@ -1,7 +1,7 @@
 from pathlib import Path  #busca la ruta de los archivos
 
-ROOT = Path(__file__).resolve().parents[0]  #busca la ruta, se corrobora con print
-TXT = ROOT / "Archivos" / "mediciones_200_mixto.txt"   #dentro de archivos(carpeta) debe encontrar "mediciones_basico.txt"
+ROOT = Path(__file__).resolve().parents[1]  #busca la ruta, se corrobora con print
+TXT = ROOT / "raw" / "mediciones_basico.txt"   #dentro de archivos(carpeta) debe encontrar "mediciones_basico.txt"
 
 #codigo de limpieza
 valores=[]
@@ -12,7 +12,6 @@ with open(TXT, 'r', encoding="utf-8") as f:     #lee TXT con (r), enconding todo
             continue
         if not s or s.startswith("!"):  #si lo primero que lee en la linea es "!" no lo toma y continua
             continue
-        s = s.strip()       # elimina espacios al inicio y final
         s = s.replace(",",".")  #reemplaza , por . y no salta datos
         try:
             valores.append(float(s))    #.append(float(s)) toma s, lo convierte en decimal y lo guarda en valores 
