@@ -1,4 +1,4 @@
-timestamp,value,control
+Tiempo,Voltaje,Control
 2025-09-01T10:00:00,4.93,OK
 2025-09-01T10:00:01,4.94,OK
 2025-09-01T10:00:02,4.89,OK

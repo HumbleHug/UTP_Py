@@ -10,7 +10,7 @@ OUT_FILE = ROOT / "processing" / "voltajes_250_limpio.csv"  #entra a la carpeta 
 with open(IN_FILE, 'r', encoding="utf-8", newline="") as fin,\
     open(OUT_FILE, 'w', encoding="utf-8", newline="") as fout: 
     reader = csv.DictReader(fin, delimiter=';')     #delimitador ; se puede cambiar por otro en el csv; porque es lo que separa las columnas
-    writer = csv.DictWriter(fout, fieldnames=["timestamp", "value", "control"])    #crea el archivo con las cabeceras que se coloquen
+    writer = csv.DictWriter(fout, fieldnames=["Tiempo", "Voltaje", "Control"])    #crea el archivo con las cabeceras que se coloquen
     writer.writeheader()
 #leer linea por linea y seleccionar en crudo raw/row
     total = kept = 0
@@ -56,5 +56,5 @@ with open(IN_FILE, 'r', encoding="utf-8", newline="") as fin,\
             control = "OK"
 
 #grabar datos en writer
-        writer.writerow({"timestamp": ts_clean, "value": f"{val:.2f}", "control": control})
+        writer.writerow({"Tiempo": ts_clean, "Voltaje": f"{val:.2f}", "Control": control})
         kept += 1 #sume 1 kept, en nuestro caso cambia de fila
