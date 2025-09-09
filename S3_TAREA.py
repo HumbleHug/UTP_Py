@@ -9,4 +9,4 @@ for i in range(n-1): #recorre la lista varias veces
         if lista[j] > lista[j + 1]:
             lista[j], lista[j + 1] = lista[j + 1], lista[j] #ordena la lista simple de arriba
 print("Ascendente:", lista) #Orden ascendente
-print("Descendente:", lista[::-1])  #lista[::-1] copia la lista y lo imprime al reves
+print("Descendente:", lista[::-1])  #lista[::-1] copia la lista y lo imprime alreves
