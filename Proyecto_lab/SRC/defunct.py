@@ -2,18 +2,13 @@ import csv
 from datetime import datetime
 from statistics import mean
 
-# -------------------
-# 1. Leer CSV
-# -------------------
+#Leer
 def leer_csv(in_file):
     with open(in_file, 'r', encoding="utf-8", newline="") as fin:
         reader = csv.DictReader(fin, delimiter=';')
         return list(reader)
 
-
-# -------------------
-# 2. Limpiar datos
-# -------------------
+#Limpiar datos
 def limpiar_datos(rows):
     voltajes = []
     datos_limpios = []
@@ -59,34 +54,25 @@ def limpiar_datos(rows):
             continue
 
         voltajes.append(val)
-        datos_limpios.append({"Tiempo": ts_clean, "Voltaje": val})
+        datos_limpios.append({"Timestamp": ts_clean, "Voltaje": val})
         kept += 1
 
     return voltajes, datos_limpios, total, kept, bad_ts, bad_val
 
-
-# -------------------
-# 3. Conversión V → °C
-# -------------------
+# Convertir
 def convertir_temp(datos_limpios):
     for row in datos_limpios:
         v = row["Voltaje"]
-        row["TempC"] = 18 * v - 64
+        row["Temp_C"] = 18 * v - 64
     return datos_limpios
 
-
-# -------------------
-# 4. Marcar alertas (> 40 °C)
-# -------------------
+# Marcar alertas 
 def marcar_alertas(datos_limpios):
     for row in datos_limpios:
-        row["Control"] = "ALERTA" if row["TempC"] > 40 else "OK"
+        row["Alertas"] = "ALERTA" if row["Temp_C"] > 40 else "OK"
     return datos_limpios
 
-
-# -------------------
-# 5. Calcular KPIs
-# -------------------
+# Calcular KPIs
 def calcular_kpis(voltajes, total, kept, bad_ts, bad_val, datos_limpios):
     n = len(voltajes)
 
@@ -103,7 +89,7 @@ def calcular_kpis(voltajes, total, kept, bad_ts, bad_val, datos_limpios):
             "Alertas": 0
         }
     else:
-        temps = [row["TempC"] for row in datos_limpios]
+        temps = [row["Temp_C"] for row in datos_limpios]
         alertas = sum(t > 40 for t in temps)
         kpis = {
             "Filas_totales": total,
@@ -119,19 +105,16 @@ def calcular_kpis(voltajes, total, kept, bad_ts, bad_val, datos_limpios):
 
     return kpis
 
-
-# -------------------
 # 6. Guardar CSV final
-# -------------------
 def guardar_csv(out_file, datos_limpios):
     with open(out_file, 'w', encoding="utf-8", newline="") as fout:
-        fieldnames = ["Tiempo", "Voltaje", "TempC", "Control"]
-        writer = csv.DictWriter(fout, fieldnames=fieldnames)
+        encabezado = ["Timestamp", "Voltaje", "Temp_C", "Alertas"]
+        writer = csv.DictWriter(fout, fieldnames=encabezado)
         writer.writeheader()
         for row in datos_limpios:
             writer.writerow({
-                "Tiempo": row["Tiempo"],
+                "Timestamp": row["Timestamp"],
                 "Voltaje": f"{row['Voltaje']:.2f}",
-                "TempC": f"{row['TempC']:.2f}",
-                "Control": row["Control"],
+                "Temp_C": f"{row['Temp_C']:.2f}",
+                "Alertas": row["Alertas"],
             })

@@ -12,7 +12,6 @@ from defunct import (
 ROOT = Path(__file__).resolve().parents[1]
 IN_FILE = ROOT / "DATA" / "RAW" / "datos_sucios_250_v2.csv"
 OUT_FILE = ROOT / "DATA" / "PROCESSED" / "Temperaturas_Procesado.csv"
-print()
 
 # flujo de trabajo
 rows = leer_csv(IN_FILE)
