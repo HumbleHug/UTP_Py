@@ -20,7 +20,6 @@ def limpiar_datos(rows):
     datos_limpios = []
     total = kept = 0
     bad_ts = bad_val = 0
-
     for row in rows:
         total += 1
         ts_raw = (row.get("timestamp") or "").strip()
@@ -62,7 +61,6 @@ def limpiar_datos(rows):
         voltajes.append(val)
         datos_limpios.append({"Timestamp": ts_clean, "Voltaje": val})
         kept += 1
-
     return voltajes, datos_limpios, total, kept, bad_ts, bad_val
 
 # Convertir
@@ -83,7 +81,6 @@ def marcar_alertas(datos_limpios):
 # Calcular KPIs
 def calcular_kpis(voltajes, total, kept, bad_ts, bad_val, datos_limpios):
     n = len(voltajes)
-
     if n == 0:
         kpis = {
             "Filas_totales": total,
@@ -110,7 +107,6 @@ def calcular_kpis(voltajes, total, kept, bad_ts, bad_val, datos_limpios):
             "temp_prom": mean(temps),
             "Alertas": alertas
         }
-
     return kpis
 
 # 6. Guardar CSV final
