@@ -34,3 +34,5 @@ print(f"Temp_min: {kpis['temp_min']:.2f}" if kpis['temp_min'] is not None else "
 print(f"Temp_max: {kpis['temp_max']:.2f}" if kpis['temp_max'] is not None else "Temp_max: None")
 print(f"Temp_prom: {kpis['temp_prom']:.2f}" if kpis['temp_prom'] is not None else "Temp_prom: None")
 print(f"Alertas: {kpis['Alertas']}")
+
+XD
