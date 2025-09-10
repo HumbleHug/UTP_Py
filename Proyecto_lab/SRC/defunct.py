@@ -1,6 +1,12 @@
 import csv
+from pathlib import Path
 from datetime import datetime
 from statistics import mean
+
+# rutas de entrada y salida
+ROOT = Path(__file__).resolve().parents[1]
+IN_FILE = ROOT / "DATA" / "RAW" / "datos_sucios_250_v2.csv"
+OUT_FILE = ROOT / "DATA" / "PROCESSED" / "Temperaturas_Procesado.csv"
 
 #Leer
 def leer_csv(in_file):
@@ -62,14 +68,16 @@ def limpiar_datos(rows):
 # Convertir
 def convertir_temp(datos_limpios):
     for row in datos_limpios:
-        v = row["Voltaje"]
-        row["Temp_C"] = 18 * v - 64
+        row["Temp_C"] = 18 * row["Voltaje"] - 64
     return datos_limpios
 
 # Marcar alertas 
 def marcar_alertas(datos_limpios):
     for row in datos_limpios:
-        row["Alertas"] = "ALERTA" if row["Temp_C"] > 40 else "OK"
+        if row["Temp_C"] > 40:
+            row["Alertas"] = "ALERTA"
+        else:
+            row["Alertas"] = "OK"
     return datos_limpios
 
 # Calcular KPIs
@@ -113,8 +121,8 @@ def guardar_csv(out_file, datos_limpios):
         writer.writeheader()
         for row in datos_limpios:
             writer.writerow({
-                "Timestamp": row["Timestamp"],
-                "Voltaje": f"{row['Voltaje']:.2f}",
-                "Temp_C": f"{row['Temp_C']:.2f}",
+                "Timestamp": row["Timestamp"], 
+                "Voltaje": f"{row['Voltaje']:.2f}", 
+                "Temp_C": f"{row['Temp_C']:.2f}", 
                 "Alertas": row["Alertas"],
             })
