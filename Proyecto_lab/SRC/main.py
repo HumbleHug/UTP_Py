@@ -12,11 +12,11 @@ from defunct import (
 def main():
     # flujo de trabajo
     rows = leer_csv(IN_FILE)
-    voltajes, datos_limpios, total, kept, bad_ts, bad_val = limpiar_datos(rows)
+    voltajes, datos_limpios, total, kept, bad_ts, empty_val = limpiar_datos(rows)
     datos_limpios = convertir_temp(datos_limpios)
     datos_limpios = marcar_alertas(datos_limpios)
 
-    kpis = calcular_kpis(voltajes, total, kept, bad_ts, bad_val, datos_limpios)
+    kpis = calcular_kpis(voltajes, total, kept, bad_ts, empty_val, datos_limpios)
     guardar_csv(OUT_FILE, datos_limpios)
 
     # impresión final de KPIs

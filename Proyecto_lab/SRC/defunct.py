@@ -19,7 +19,7 @@ def limpiar_datos(rows):
     voltajes = []
     datos_limpios = []
     total = kept = 0
-    bad_ts = bad_val = 0
+    bad_ts = empty_val = 0
     for row in rows:
         total += 1
         ts_raw = (row.get("timestamp") or "").strip()
@@ -29,12 +29,12 @@ def limpiar_datos(rows):
         val_raw = val_raw.replace(",", ".")
         val_low = val_raw.lower()
         if val_low in {"", "na", "n/a", "nan", "null", "none", "error"}:
-            bad_val += 1
+            empty_val += 1
             continue
         try:
             val = float(val_raw)
         except ValueError:
-            bad_val += 1
+            empty_val += 1
             continue
 
         # limpiar timestamp
@@ -61,7 +61,7 @@ def limpiar_datos(rows):
         voltajes.append(val)
         datos_limpios.append({"Timestamp": ts_clean, "Voltaje": val})
         kept += 1
-    return voltajes, datos_limpios, total, kept, bad_ts, bad_val
+    return voltajes, datos_limpios, total, kept, bad_ts, empty_val
 
 # Convertir
 def convertir_temp(datos_limpios):
@@ -79,14 +79,14 @@ def marcar_alertas(datos_limpios):
     return datos_limpios
 
 # Calcular KPIs
-def calcular_kpis(voltajes, total, kept, bad_ts, bad_val, datos_limpios):
+def calcular_kpis(voltajes, total, kept, bad_ts, empty_val, datos_limpios):
     n = len(voltajes)
     if n == 0:
         kpis = {
             "Filas_totales": total,
             "Filas_validas": kept,
             "Descartes_Timestamp": bad_ts,
-            "Descartes_valor": bad_val,
+            "Descartes_valor": empty_val,
             "n": 0,
             "temp_min": None,
             "temp_max": None,
@@ -100,7 +100,7 @@ def calcular_kpis(voltajes, total, kept, bad_ts, bad_val, datos_limpios):
             "Filas_totales": total,
             "Filas_validas": kept,
             "Descartes_Timestamp": bad_ts,
-            "Descartes_valor": bad_val,
+            "Descartes_valor": empty_val,
             "n": n,
             "temp_min": min(temps),
             "temp_max": max(temps),
