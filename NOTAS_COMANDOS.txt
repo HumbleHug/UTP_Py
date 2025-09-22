@@ -1,0 +1,12 @@
+Terminal:
+    -Para limpiar terminal [Crtl + L]
+
+    -Para guardar cambios [Crtl + S]  
+
+    -Para ver los directorios (carpetas) [dir]
+
+    -Para retroceder de carpeta [cd ..]
+
+    -Para ingresar a la carpeta  [cd *nombre carpeta*]
+    
+    -Para ejecutar .py desde la carpeta [py *nombre.py*]
