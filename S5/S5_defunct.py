@@ -32,9 +32,7 @@ def main():
     print("Voltajes:", valores)
     print("Temperaturas:", [round(t, 2) for t in temperaturas])
     print("Alertas:", alertas)
-
-
-
+    
 #para usar las paqueterias internas (def) del programa en otro programa
 if __name__ == "__main__":
     main()  # solo se ejecuta al correr: python s4_pipeline.py
