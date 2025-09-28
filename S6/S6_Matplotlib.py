@@ -19,7 +19,7 @@ ejey=np.sin(aleatorio(30))
 ejey2=np.cos(aleatorio(30))
 ejey3=np.array(ejey)-np.array(ejey2)
 figtitle="grafico comparativo de valores aleatorios"
-plt.title(figtitle.upper(),fontdict={'fontweight': 'bold'})     #tTITULO
+plt.title(figtitle.upper(),fontdict={'fontweight': 'bold'})     #TITULO
 plt.xlabel("numero de datos")   #TITULO en el eje x
 plt.ylabel("valores aleatorios")    #TITULO en el eje y
 plt.plot(ejex,ejey,color="#10144bd3",marker='x', linestyle='--',linewidth=3, markersize=6,label="aleatorio 1") #(ejex, ejey, caracteristicas)
