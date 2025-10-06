@@ -6,7 +6,7 @@ import matplotlib.dates as mdates
 
 #enrutamiento
 ROOT=Path(__file__).resolve().parents[1]
-DATA_DIR  = ROOT /"S4" / "processing"   #Ingresa a la semana 4
+DATA_DIR  = ROOT / "S4" / "processing"   #Ingresa a la semana 4
 FILENAME= "voltajes_250_limpio.csv"     #Ingresa al archivo
 Umbral_V=5.05
 #carpeta de salidas
