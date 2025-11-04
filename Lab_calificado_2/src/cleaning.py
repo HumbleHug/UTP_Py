@@ -3,7 +3,7 @@ from datetime import datetime
 from pathlib import Path
 from .IO_Utils import detectar_delimitador
 
-NA_TOKENS = {"", "na", "n/a", "nan", "null", "none", "error"}
+NA_TOKENS = {"", "na", "n/a", "nan", "null", "none", "error"}  #Detecta y marca como inválidos los valores vacíos
 
 def parse_ts(s: str):
     """Normaliza a datetime (acepta ISO 'YYYY-MM-DDTHH:MM:SS' y 'dd/mm/YYYY HH:MM:SS')."""

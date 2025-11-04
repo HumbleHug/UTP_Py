@@ -10,7 +10,6 @@ from src import (
     plot_voltage_line, plot_voltage_hist, plot_boxplot_by_sensor
 )
 
-
 # === Parámetros ===
 ROOT = Root(__file__)
 RAW_DIR = ROOT / "data" / "raw"
@@ -90,3 +89,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+

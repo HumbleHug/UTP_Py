@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 from pathlib import Path
 
-def plot_voltage_line(ts, volts, umbral_v: float, title: str, out_path: Path):
+def plot_voltage_line(ts, volts, umbral_v: float, title: str, out_path: Path):      #Gráfico de línea
     plt.figure(figsize=(9,4))
     plt.plot(ts, volts, label="temperatura (%)")
     alerts_t = [t for t, v in zip(ts, volts) if v > umbral_v]
@@ -16,7 +16,7 @@ def plot_voltage_line(ts, volts, umbral_v: float, title: str, out_path: Path):
     out_path.parent.mkdir(parents=True, exist_ok=True)
     plt.savefig(out_path, dpi=150); plt.show()
 
-def plot_voltage_hist(volts, title: str, out_path: Path, bins: int = 20):
+def plot_voltage_hist(volts, title: str, out_path: Path, bins: int = 20):       #Histograma
     plt.figure(figsize=(6,4))
     plt.hist(volts, bins=bins)
     file_number = Path(title).stem[-2:]
@@ -25,7 +25,7 @@ def plot_voltage_hist(volts, title: str, out_path: Path, bins: int = 20):
     out_path.parent.mkdir(parents=True, exist_ok=True)
     plt.savefig(out_path, dpi=150); plt.show()
 
-def plot_boxplot_by_sensor(sensor_to_volts: dict[str, list[float]], out_path: Path):
+def plot_boxplot_by_sensor(sensor_to_volts: dict[str, list[float]], out_path: Path):        #Boxplot
     labels = list(sensor_to_volts.keys())
     data = [sensor_to_volts[k] for k in labels if sensor_to_volts[k]]
     if not data:

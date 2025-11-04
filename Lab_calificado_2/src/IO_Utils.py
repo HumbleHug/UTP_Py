@@ -10,7 +10,7 @@ def Root(file=__file__) -> Path:
     """
     return Path(file).resolve().parents[0]
 
-def ensure_dirs(*dirs: Path) -> None:
+def ensure_dirs(*dirs: Path) -> None: #Recibe una o varias rutas y crea las carpetas si no existen
     for d in dirs:
         d.mkdir(parents=True, exist_ok=True)
 
@@ -38,7 +38,7 @@ def make_clean_name(p:Path) -> str:
     """
     nombre=p.stem
     if "sucio" in nombre:
-        nombre = nombre.replace("sucios", "limpios").replace("sucio", "limpio")
+        nombre = nombre.replace("sucios", "limpios").replace("sucio", "limpio").replace("humedad","temperatura")
     else:
         nombre = f"{nombre}_limpio"
     return f"{nombre}.csv"
