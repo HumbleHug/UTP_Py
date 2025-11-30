@@ -110,3 +110,65 @@ def plot_comparison_boxplot(data_dict, out_path: Path):
     out_path.parent.mkdir(parents=True, exist_ok=True)
     plt.savefig(out_path, dpi=120)
     plt.close()
+
+def plot_band_timeline(ts_ms, bandas, out_path: Path):
+    """
+    Genera un timeline escalonado que muestra la banda activa (0, 1, 2)
+    a lo largo del tiempo.
+    """
+    dates = format_ts(ts_ms)
+    
+    # Mapeo de estados de banda a valores enteros
+    banda_to_int = {
+        "CLOSE": 0,
+        "NEAR": 1,
+        "FAR": 2,
+    }
+    
+    # Etiquetas que aparecerán en el eje Y
+    banda_labels = {
+        0: "CERCA (CLOSE)",
+        1: "INTERMEDIO (NEAR)",
+        2: "LEJOS (FAR)",
+    }
+    
+    int_bands = []
+    
+    # Convertimos la lista de bandas a una lista de enteros
+    for b_original in bandas:
+        b_upper = b_original.upper()
+        # Usamos .get() para asignar -1 (un valor no ploteable) si es desconocido
+        int_bands.append(banda_to_int.get(b_upper, -1)) 
+        
+    # --- Generación del Gráfico ---
+    plt.figure(figsize=(10, 3.5))
+    
+    # Usamos plt.step para generar la gráfica escalonada (timeline)
+    # Excluimos los valores -1 (UNKNOWN)
+    valid_indices = [i for i, b in enumerate(int_bands) if b != -1]
+    
+    # Filtramos las listas para solo incluir los datos válidos
+    valid_dates = [dates[i] for i in valid_indices]
+    valid_int_bands = [int_bands[i] for i in valid_indices]
+    
+    if valid_dates:
+        # El estilo 'post' asegura que la línea se dibuje horizontalmente hasta el siguiente punto.
+        plt.step(valid_dates, valid_int_bands, where='post', color='darkorange', alpha=0.8, linewidth=2)
+    
+    # 1. Configuración del Eje Y
+    # Configuramos el eje Y para que muestre 0, 1, 2
+    plt.yticks(list(banda_labels.keys()), list(banda_labels.values()))
+    plt.ylim(-0.5, 2.5) # Rango para centrar los valores 0, 1, 2
+    
+    # 2. Configuración del Eje X
+    plt.gca().xaxis.set_major_formatter(mdates.DateFormatter("%M:%S"))
+    
+    plt.title(f"Timeline de Banda del Radar ({out_path.stem.replace('_limpio_timeline', '')})")
+    plt.xlabel("Tiempo (min:seg)")
+    plt.ylabel("Banda Activa")
+    plt.grid(True, axis='x', linestyle='--', alpha=0.6) # Solo grid vertical
+    plt.tight_layout()
+    
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    plt.savefig(out_path, dpi=120)
+    plt.close()

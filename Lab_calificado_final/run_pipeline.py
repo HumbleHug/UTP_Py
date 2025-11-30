@@ -8,7 +8,7 @@ sys.path.append(str(Path(__file__).resolve().parent))
 from src import (
     Root, ensure_dirs, list_raw_csvs, make_clean_name, safe_stem,
     clean_radar_file, kpis_radar,
-    plot_radar_line, plot_radar_hist, plot_comparison_boxplot
+    plot_radar_line, plot_radar_hist, plot_comparison_boxplot, plot_band_timeline
 )
 
 # === Configuración ===
@@ -66,6 +66,10 @@ def main():
         
         plot_radar_line(ts, dists, bandas, PLOTS_DIR / f"{stem_safe}_line.png")
         plot_radar_hist(dists, PLOTS_DIR / f"{stem_safe}_hist.png")
+        plot_band_timeline(
+        ts, bandas,
+        out_path=PLOTS_DIR / f"{stem_safe}__timeline.png"
+    )
 
     # 4. Gráfico Comparativo (Boxplot)
     if len(datos_para_boxplot) > 0:
