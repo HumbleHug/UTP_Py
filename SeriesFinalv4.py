@@ -14,8 +14,8 @@ URL_BASE = "https://physionet.org/files/chbmit/1.0.0/"
 
 # Lista de pacientes y sus canales específicos
 PACIENTES_CONFIG = [
-    {"id": "chb01", "canales": ["T8-P8", "T7-FT9"]},
-    {"id": "chb02", "canales": ["C3-P3", "T8-P8"]}
+    {"id": "chb01", "canales": ["FP1-F7"]},
+    {"id": "chb02", "canales": ["FP1-F7"]}
 ]
 
 # 2. Descargar archivo EDF 
@@ -50,7 +50,7 @@ def generar_eeg_sano(duracion):
     alpha = 40 * np.sin(2 * np.pi * 10 * t) 
     beta = 20 * np.sin(2 * np.pi * 20 * t) 
     theta = 15 * np.sin(2 * np.pi * 5 * t) 
-    ruido = np.random.normal(0, 8, len(t)) 
+    ruido = np.random.normal(0, 1, len(t)) 
     return alpha + beta + theta + ruido 
  
 # 4. Cargar datos reales del paciente 
@@ -122,7 +122,7 @@ def visualizar_comparacion(sano, paciente_signal, canales_lista, nombre_paciente
                             bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="none")) 
  
         ax.margins(y=0.1)
-        ax.set_title('EEG Paciente con Hipsarritmia', fontsize=14, pad=10) 
+        ax.set_title('EEG Paciente con Epilepsia Refractaria', fontsize=14, pad=10) 
         ax.set_xlabel('Tiempo (s)', fontsize=12) 
         ax.legend(loc='upper right') 
  
@@ -170,7 +170,7 @@ def visualizar_comparacion(sano, paciente_signal, canales_lista, nombre_paciente
  
         ax.margins(y=0.1)
         ax.set_xlim(0, 40) 
-        ax.set_title('Espectro de Potencia - Hipsarritmia', fontsize=14, pad=10) 
+        ax.set_title('Espectro de Potencia - Epilepsia Refractaria', fontsize=14, pad=10) 
         ax.set_xlabel('Frecuencia (Hz)', fontsize=12) 
         ax.legend(loc='upper right') 
  

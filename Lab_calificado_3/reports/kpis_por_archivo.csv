@@ -1,0 +1,2 @@
+archivo,salida,filas_totales,filas_validas,descartes_valor,descartes_valor_avg,%descartadas,n,min,max,prom,alerts_activadas,alerts_pct
+datos_sensor.csv,datos_sensor_limpio.csv,573,573,0,0,0.0,573,40.0,84.0,69.38,49,42.06
