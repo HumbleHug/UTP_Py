@@ -172,3 +172,69 @@ def plot_band_timeline(ts_ms, bandas, out_path: Path):
     out_path.parent.mkdir(parents=True, exist_ok=True)
     plt.savefig(out_path, dpi=120)
     plt.close()
+
+def plot_band_distribution(bandas, out_path: Path):
+    """
+    Genera un gráfico de barras horizontales que muestra la frecuencia de cada banda.
+    bandas: Lista de strings con los estados (ej. ['FAR', 'NEAR', 'NEAR', 'FAR', ...])
+    """
+    
+    # 1. Conteo y Normalización (Similar a lo que hace kpis.py)
+    conteo = {}
+    total_samples = len(bandas)
+    
+    # Mapeo a español para etiquetas
+    banda_map = {
+        "CLOSE": "CERCA",
+        "NEAR": "INTERMEDIO",
+        "FAR": "LEJOS",
+    }
+    
+    # Contar solo las bandas conocidas y normalizarlas
+    for b_original in bandas:
+        b_upper = b_original.upper()
+        banda_std = banda_map.get(b_upper)
+        if banda_std:
+            conteo[banda_std] = conteo.get(banda_std, 0) + 1
+    
+    if not conteo:
+        print(f"Advertencia: No hay datos válidos (CLOSE, NEAR, FAR) para la distribución en {out_path.stem}.")
+        return
+
+    # Preparar datos para la gráfica (ordenando las barras)
+    etiquetas = []
+    porcentajes = []
+    
+    # Ordenar de CERCA a LEJOS (CLOSE, NEAR, FAR)
+    orden = ["CERCA", "INTERMEDIO", "LEJOS"]
+    colores = {"CERCA": "red", "INTERMEDIO": "orange", "LEJOS": "green"}
+    
+    for banda_nombre in orden:
+        if banda_nombre in conteo:
+            porc = 100 * conteo[banda_nombre] / total_samples
+            etiquetas.append(f"{banda_nombre} ({conteo[banda_nombre]} muestras)")
+            porcentajes.append(porc)
+
+    # --- 2. Generación del Gráfico ---
+    plt.figure(figsize=(7, 4))
+    
+    # Graficar las barras horizontalmente (barh)
+    barras = plt.barh(etiquetas, porcentajes, 
+                      color=[colores[e.split(' ')[0]] for e in etiquetas])
+    
+    # Añadir texto con el porcentaje en cada barra
+    for bar in barras:
+        width = bar.get_width()
+        plt.text(width, bar.get_y() + bar.get_height()/2, 
+                 f'{width:.1f}%',
+                 va='center', ha='left', fontsize=9)
+
+    plt.title(f"Distribución Porcentual de Bandas ({out_path.stem.replace('_limpio', '')})")
+    plt.xlabel("Porcentaje de Tiempo (%)")
+    plt.xlim(0, 105) # Rango ligeramente superior a 100% para el texto
+    plt.grid(True, axis='x', linestyle='--', alpha=0.6)
+    plt.tight_layout()
+    
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    plt.savefig(out_path, dpi=120)
+    plt.close()
